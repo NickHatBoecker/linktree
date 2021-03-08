@@ -1,12 +1,13 @@
 <template>
     <div id="app" class="fullheight">
         <div class="page fullheight">
+            <h1 class="sr-only">NickHatBoecker Linktree</h1>
             <div class="logo-wrapper">
                 <img class="logo" width="100" height="100" alt="NickHatBoecker Logo" src="./assets/logo.png">
             </div>
             <linktree />
 
-            <p class="disclaimer u-text-center">Icons provided by <a href="https://fontawesome.com/" target="_blank">Font Awesome</a></p>
+            <p class="disclaimer u-text-center">Icons provided by <a href="https://fontawesome.com/" target="_blank" rel="noopener">Font Awesome</a></p>
         </div>
     </div>
 </template>
@@ -69,6 +70,10 @@ export default {
         margin-bottom: $spacing-unit*5;
         padding: $spacing-unit*4;
         width: $logo-size * 2;
+    }
+
+    .logo {
+        image-rendering: pixelated;
     }
 
     .disclaimer {

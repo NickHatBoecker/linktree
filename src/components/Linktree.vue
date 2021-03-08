@@ -1,7 +1,12 @@
 <template>
     <ul class="linktree">
         <li v-for="(link, index) in links" :key="index">
-            <a :class="`link${link.theme === 'current' ? ' link--current' : ''}`" :href="link.url" target="_blank">
+            <a
+                :class="`link${link.theme === 'current' ? ' link--current' : ''}`"
+                :href="link.url"
+                target="_blank"
+                rel="noopener"
+            >
                 <fa-icon v-if="link.icon" class="link-icon" :icon="link.icon" />
                 {{ link.title }}
             </a>
