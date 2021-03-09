@@ -2,12 +2,12 @@
     <ul class="linktree">
         <li v-for="(link, index) in links" :key="index">
             <a
-                :class="`link${link.theme === 'current' ? ' link--current' : ''}`"
+                :class="`link${link.theme === currentTheme ? ' link--current' : ''}`"
                 :href="link.url"
                 target="_blank"
                 rel="noopener"
             >
-                <fa-icon v-if="link.icon" class="link-icon" :icon="link.icon" />
+                <fa-icon v-if="link.icon" class="link-icon" :icon="[link.iconPrefix || '', link.icon || '']" />
                 {{ link.title }}
             </a>
         </li>
@@ -15,12 +15,39 @@
 </template>
 
 <script>
-import links from '@/assets/links'
+const CURRENT_THEME = 'current'
 
 export default {
     name: 'Linktree',
 
-    data: () => ({ links }),
+    data: () => ({ links: [], currentTheme: CURRENT_THEME }),
+
+    async mounted () {
+        try {
+            const { items } = await this.$contentful.getEntries({
+                content_type: process.env.VUE_APP_CONTENTFUL_LINK_TYPE,
+            })
+
+            const links = items.map(x => x.fields)
+            links.sort(this.sortByPosition)
+
+            this.links = links
+        } catch (e) {
+            console.log(e) // eslint-disable-line no-console
+        }
+    },
+
+    methods: {
+        sortByPosition (a, b) {
+            // Always show current links on top
+            if (a.theme === CURRENT_THEME && b.theme !== CURRENT_THEME) return -1
+
+            if (a.position < b.position) return 1
+            if (b.position < a.position) return -1
+
+            return 0
+        },
+    },
 }
 </script>
 

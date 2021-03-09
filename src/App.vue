@@ -1,24 +1,43 @@
 <template>
     <div id="app" class="fullheight">
         <div class="page fullheight">
-            <h1 class="sr-only">NickHatBoecker Linktree</h1>
-            <div class="logo-wrapper">
-                <img class="logo" width="100" height="100" alt="NickHatBoecker Logo" src="./assets/logo.png">
-            </div>
-            <linktree />
+            <h1 class="sr-only">Linktree</h1>
 
+            <div v-if="logo" class="logo-wrapper">
+                <img class="logo" width="100" height="100" alt="Logo" :src="logo">
+            </div>
+
+            <linktree />
             <p class="disclaimer u-text-center">Icons provided by <a href="https://fontawesome.com/" target="_blank" rel="noopener">Font Awesome</a></p>
         </div>
     </div>
 </template>
 
 <script>
+import { pathOr } from 'ramda'
 import Linktree from '@/components/Linktree'
 
 export default {
     name: 'App',
 
     components: { Linktree },
+
+    data: () => ({ favicon: null, logo: null }),
+
+    async mounted () {
+        try {
+            const { items } = await this.$contentful.getEntries({
+                content_type: process.env.VUE_APP_CONTENTFUL_OPTIONS_TYPE,
+            })
+
+            const { favicon, logo } = pathOr({}, [0, 'fields'], items)
+
+            this.favicon = pathOr(null, ['fields', 'file', 'url'], favicon)
+            this.logo = pathOr(null, ['fields', 'file', 'url'], logo)
+        } catch (e) {
+            console.log(e) // eslint-disable-line no-console
+        }
+    },
 }
 </script>
 
