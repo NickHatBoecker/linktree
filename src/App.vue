@@ -4,7 +4,7 @@
             <h1 class="sr-only">Linktree</h1>
 
             <div v-if="logo" class="logo-wrapper">
-                <img class="logo" width="100" height="100" alt="Logo" :src="logo">
+                <img class="logo" width="auto" height="auto" alt="Logo" :src="logo">
             </div>
 
             <linktree />
@@ -22,17 +22,15 @@ export default {
 
     components: { Linktree },
 
-    data: () => ({ favicon: null, logo: null }),
+    data: () => ({ logo: null }),
 
     async mounted () {
         try {
             const { items } = await this.$contentful.getEntries({
                 content_type: process.env.VUE_APP_CONTENTFUL_OPTIONS_TYPE,
             })
+            const { logo } = pathOr({}, [0, 'fields'], items)
 
-            const { favicon, logo } = pathOr({}, [0, 'fields'], items)
-
-            this.favicon = pathOr(null, ['fields', 'file', 'url'], favicon)
             this.logo = pathOr(null, ['fields', 'file', 'url'], logo)
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
@@ -80,19 +78,9 @@ export default {
         align-items: center;
     }
 
-    .logo-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: $primary;
+    .logo {
         border-radius: 50%;
         margin-bottom: $spacing-unit*5;
-        padding: $spacing-unit*4;
-        width: $logo-size * 2;
-    }
-
-    .logo {
-        image-rendering: pixelated;
     }
 
     .disclaimer {
