@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faGlobe } from '@fortawesome/free-solid-svg-icons'
-import { faTwitter, faYoutube, faItunesNote, faGithub } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import * as Contentful from 'contentful'
 
-library.add([faGlobe, faTwitter, faYoutube, faItunesNote, faGithub])
+library.add(fas)
+library.add(fab)
 
 Vue.component('fa-icon', FontAwesomeIcon)
 
