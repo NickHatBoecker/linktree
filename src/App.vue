@@ -78,7 +78,12 @@ export default {
         align-items: center;
     }
 
+    .logo-wrapper {
+        max-width: 80vw;
+    }
+
     .logo {
+        max-width: 100%;
         border-radius: 50%;
         margin-bottom: $spacing-unit*5;
     }
