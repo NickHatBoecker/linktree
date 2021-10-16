@@ -8,13 +8,14 @@
                 rel="noopener"
             >
                 <fa-icon v-if="link.icon" class="link-icon" :icon="[link.iconPrefix || '', link.icon || '']" />
-                {{ link.title }}
+                {{ link.label }}
             </a>
         </li>
     </ul>
 </template>
 
 <script>
+import { omit } from 'ramda'
 const CURRENT_THEME = 'current'
 
 export default {
@@ -24,14 +25,16 @@ export default {
 
     async mounted () {
         try {
-            const { items } = await this.$contentful.getEntries({
-                content_type: process.env.VUE_APP_CONTENTFUL_LINK_TYPE,
+            const { data: { stories } } = await this.$storyblok.get('cdn/stories', {
+                starts_with: 'links',
+                filter_query: {
+                    theme: {
+                        not_like: 'icon-only',
+                    },
+                },
             })
 
-            const links = items.map(x => x.fields)
-            links.sort(this.sortByPosition)
-
-            this.links = links
+            this.links = stories.map(x => omit(['component', 'theme', '_uid'], x.content))
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
         }

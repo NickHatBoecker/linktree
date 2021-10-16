@@ -1,19 +1,23 @@
 import Vue from 'vue'
 import App from './App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faGlobe, faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons'
-import { faTwitter, faYoutube, faItunesNote, faGithub } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import * as Contentful from 'contentful'
+import StoryblokClient from 'storyblok-js-client'
 
-library.add([faGlobe, faTwitter, faYoutube, faItunesNote, faGithub, faHandHoldingHeart])
+library.add(fab)
+library.add(fas)
 
 Vue.component('fa-icon', FontAwesomeIcon)
 
-// Access via this.$contentful in vue components
-Vue.prototype.$contentful = Contentful.createClient({
-    space: process.env.VUE_APP_CONTENTFUL_SPACE_ID,
-    accessToken: process.env.VUE_APP_CONTENTFUL_ACCESS_TOKEN,
+// Access via this.$storyblok in vue components
+Vue.prototype.$storyblok = new StoryblokClient({
+    accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
+    cache: {
+        clear: 'auto',
+        type: 'memory',
+    },
 })
 
 Vue.config.productionTip = false
