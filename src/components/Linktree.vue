@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { omit } from 'ramda'
+import { propOr, omit } from 'ramda'
 const CURRENT_THEME = 'current'
 
 export default {
@@ -35,18 +35,18 @@ export default {
             })
 
             this.links = stories.map(x => omit(['component', 'theme', '_uid'], x.content))
+            this.links.sort(this.sortByPositionDesc)
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
         }
     },
 
     methods: {
-        sortByPosition (a, b) {
-            // Always show current links on top
-            if (a.theme === CURRENT_THEME && b.theme !== CURRENT_THEME) return -1
+        sortByPositionDesc (a, b) {
+            const defaultSort = 10
 
-            if (a.position < b.position) return 1
-            if (b.position < a.position) return -1
+            if (propOr(defaultSort, 'position', a) > propOr(defaultSort, 'position', b)) return 1
+            if (propOr(defaultSort, 'position', b) > propOr(defaultSort, 'position', a)) return -1
 
             return 0
         },
