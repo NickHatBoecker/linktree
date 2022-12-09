@@ -36,13 +36,18 @@ export default {
 
     methods: {
         getIconList (icon) {
-            const list = icon.split('-')
+            const prefixes = ['fab', 'fas']
+            let iconName = icon
+            let iconPrefix = ''
 
-            if (list.length === 1) {
-                return ['', icon]
-            }
+            prefixes.forEach(prefix => {
+                if (icon.startsWith(`${prefix}-`)) {
+                    iconPrefix = prefix
+                    iconName = iconName.replace(`${prefix}-`, '')
+                }
+            })
 
-            return list
+            return [iconPrefix, iconName]
         },
 
         sortByPositionDesc (a, b) {

@@ -22,7 +22,7 @@ export default {
 
     async mounted () {
         try {
-            const { links } = await (await fetch(`${process.env.VUE_APP_API_BASE_URL}/get-links`)).json()
+            const { links } = await (await fetch(`${process.env.VUE_APP_API_BASE_URL}/get-socials`)).json()
             this.links = links
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
@@ -31,13 +31,18 @@ export default {
 
     methods: {
         getIconList (icon) {
-            const list = icon.split('-')
+            const prefixes = ['fab', 'fas']
+            let iconName = icon
+            let iconPrefix = ''
 
-            if (list.length === 1) {
-                return ['', icon]
-            }
+            prefixes.forEach(prefix => {
+                if (icon.startsWith(`${prefix}-`)) {
+                    iconPrefix = prefix
+                    iconName = iconName.replace(`${prefix}-`, '')
+                }
+            })
 
-            return list
+            return [iconPrefix, iconName]
         },
     },
 }
