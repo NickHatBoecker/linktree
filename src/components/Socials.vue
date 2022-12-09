@@ -8,15 +8,13 @@
                 rel="noopener"
                 :title="link.label"
             >
-                <fa-icon v-if="link.icon" class="link-icon" :icon="[link.iconPrefix || '', link.icon || '']" />
+                <fa-icon v-if="link.icon" class="link-icon" :icon="getIconList(link.icon)" />
             </a>
         </li>
     </ul>
 </template>
 
 <script>
-import { omit } from 'ramda'
-
 export default {
     name: 'Socials',
 
@@ -24,19 +22,23 @@ export default {
 
     async mounted () {
         try {
-            const { data: { stories } } = await this.$storyblok.get('cdn/stories', {
-                starts_with: 'links',
-                filter_query: {
-                    theme: {
-                        like: 'icon-only',
-                    },
-                },
-            })
-
-            this.links = stories.map(x => omit(['component', 'theme', '_uid'], x.content))
+            const { links } = await (await fetch(`${process.env.VUE_APP_API_BASE_URL}/get-links`)).json()
+            this.links = links
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
         }
+    },
+
+    methods: {
+        getIconList (icon) {
+            const list = icon.split('-')
+
+            if (list.length === 1) {
+                return ['', icon]
+            }
+
+            return list
+        },
     },
 }
 </script>

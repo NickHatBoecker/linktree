@@ -7,7 +7,7 @@
                 target="_blank"
                 rel="noopener"
             >
-                <fa-icon v-if="link.icon" class="link-icon" :icon="[link.iconPrefix || '', link.icon || '']" />
+                <fa-icon v-if="link.icon" class="link-icon" :icon="getIconList(link.icon)" />
                 {{ link.label }}
             </a>
         </li>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { propOr, omit } from 'ramda'
+import { propOr } from 'ramda'
 const CURRENT_THEME = 'current'
 
 export default {
@@ -25,16 +25,9 @@ export default {
 
     async mounted () {
         try {
-            const { data: { stories } } = await this.$storyblok.get('cdn/stories', {
-                starts_with: 'links',
-                filter_query: {
-                    theme: {
-                        not_like: 'icon-only',
-                    },
-                },
-            })
+            const { links } = await (await fetch(`${process.env.VUE_APP_API_BASE_URL}/get-links`)).json()
 
-            this.links = stories.map(x => omit(['component', 'theme', '_uid'], x.content))
+            this.links = links
             this.links.sort(this.sortByPositionDesc)
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
@@ -42,6 +35,16 @@ export default {
     },
 
     methods: {
+        getIconList (icon) {
+            const list = icon.split('-')
+
+            if (list.length === 1) {
+                return ['', icon]
+            }
+
+            return list
+        },
+
         sortByPositionDesc (a, b) {
             const defaultSort = 10
 

@@ -4,21 +4,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import StoryblokClient from 'storyblok-js-client'
 
 library.add(fab)
 library.add(fas)
 
 Vue.component('fa-icon', FontAwesomeIcon)
-
-// Access via this.$storyblok in vue components
-Vue.prototype.$storyblok = new StoryblokClient({
-    accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
-    cache: {
-        clear: 'auto',
-        type: 'memory',
-    },
-})
 
 Vue.config.productionTip = false
 

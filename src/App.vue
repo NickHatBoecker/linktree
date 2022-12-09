@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { pathOr } from 'ramda'
+import { propOr } from 'ramda'
 import Linktree from '@/components/Linktree'
 import Socials from '@/components/Socials'
 
@@ -32,11 +32,10 @@ export default {
 
     async mounted () {
         try {
-            const { data: { stories } } = await this.$storyblok.get('cdn/stories', { starts_with: 'options' })
-            const options = pathOr(null, [0, 'content'], stories)
+            const { options } = await (await fetch(`${process.env.VUE_APP_API_BASE_URL}/get-options`)).json()
 
-            this.logo = pathOr(null, ['logo', 'filename'], options)
-            this.slogan = pathOr(null, ['slogan'], options)
+            this.logo = propOr(null, 'logoSrc', options)
+            this.slogan = propOr(null, 'slogan', options)
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
         }
