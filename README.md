@@ -2,6 +2,8 @@
 
 VueJS App for Linktrees. Needs a Symfony API.
 
+**Example:** https://nick-hat-boecker.de/linktree/
+
 ## Project setup
 ```
 yarn
