@@ -1,17 +1,13 @@
 # Linktree
 
-VueJS App for Linktrees. Needs a [Contentful](https://www.contentful.com/) API.
-
-See [Video Tutorial]() to create your own.
+VueJS App for Linktrees. Needs a Symfony API.
 
 ## Project setup
 ```
-yarn install
+yarn
 ```
 
-Copy `.env` file to `.env.local` and put in your Contentful Credentials.
-
-**Attention:** Only use read-only Contentful access token, because it will be publicy available in the apps source code, after build. 
+Copy `.env` file to `.env.local` and put in your API Credentials.
 
 ### Compiles and hot-reloads for development
 ```
