@@ -36,6 +36,13 @@ export default {
 
             this.logo = propOr(null, 'logoSrc', options)
             this.slogan = propOr(null, 'slogan', options)
+
+            if (process.env.VUE_APP_PLAUSIBLE_DOMAIN) {
+                const trackingScript = document.createElement('script')
+                trackingScript.setAttribute('src', 'https://analytics.serverwueste.de/js/script.js')
+                trackingScript.setAttribute('data-domain', process.env.VUE_APP_PLAUSIBLE_DOMAIN)
+                document.body.appendChild(trackingScript)
+            }
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
         }
