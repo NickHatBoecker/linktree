@@ -11,6 +11,7 @@
             </div>
 
             <linktree />
+            <itch-games v-if="showItchGames" class="mt-36" />
             <socials />
 
             <p class="disclaimer u-text-center">Icons provided by <a href="https://fontawesome.com/" target="_blank" rel="noopener">Font Awesome</a></p>
@@ -20,15 +21,22 @@
 
 <script>
 import { propOr } from 'ramda'
-import Linktree from '@/components/Linktree'
-import Socials from '@/components/Socials'
+import Linktree from '@/components/Linktree.vue'
+import ItchGames from '@/components/ItchGames.vue'
+import Socials from '@/components/Socials.vue'
 
 export default {
     name: 'App',
 
-    components: { Socials, Linktree },
+    components: { ItchGames, Socials, Linktree },
 
     data: () => ({ logo: null, slogan: null }),
+
+    computed: {
+        showItchGames () {
+            return process.env.VUE_APP_PLAUSIBLE_DOMAIN === 'nick-hat-boecker.de'
+        },
+    },
 
     async mounted () {
         try {
@@ -108,6 +116,10 @@ export default {
 
     .mb-8 {
         margin-bottom: $spacing-unit * 8;
+    }
+
+    .mt-36 {
+        margin-top: $spacing-unit-36;
     }
 
     .disclaimer {
