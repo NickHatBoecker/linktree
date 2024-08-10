@@ -44,6 +44,13 @@ export default {
         color: $primary;
     }
 
+    .u-help {
+        display: block;
+        font-style: italic;
+        color: #ddd;
+        margin-bottom: $spacing-unit;
+    }
+
     .fullheight {
         height: 100%;
     }
@@ -75,6 +82,10 @@ export default {
     form { color: $white; }
 
     label { display: block; }
+
+    label + input, label + select, label + textarea {
+        margin-top: 6px;
+    }
 
     .form-group { margin-bottom: 24px; }
 

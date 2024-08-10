@@ -5,18 +5,28 @@
 
             <form class="form full-width" @submit.prevent="onSubmit">
                 <div class="form-group">
-                    <label>Title <sup>*</sup></label>
-                    <input v-model="form.title" class="form-control" type="text" required />
+                    <label>Profile <sup>*</sup></label>
+                    <input v-model="form.profile" class="form-control" type="text" readonly required />
                 </div>
 
                 <div class="form-group">
-                    <label>Icon</label>
-                    <input v-model="form.icon" class="form-control" type="text" />
+                    <label>Title <em><small>(internal only)</small></em> <sup>*</sup></label>
+                    <input ref="title" v-model="form.title" class="form-control" type="text" required />
                 </div>
 
                 <div class="form-group">
                     <label>Label <sup>*</sup></label>
                     <input v-model="form.label" class="form-control" type="text" required />
+                </div>
+
+                <div class="form-group">
+                    <label>URL <sup>*</sup></label>
+                    <input v-model="form.url" class="form-control" type="url" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Icon Class</label>
+                    <input v-model="form.icon" class="form-control" type="text" placeholder="fab-youtube" />
                 </div>
 
                 <div class="form-group">
@@ -28,18 +38,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label>URL <sup>*</sup></label>
-                    <input v-model="form.url" class="form-control" type="url" required />
-                </div>
-
-                <div class="form-group">
                     <label>Position</label>
+                    <small class="u-help">Links with a higher number stay on top. So order is by position DESC.</small>
                     <input v-model="form.position" class="form-control" type="number" />
-                </div>
-
-                <div class="form-group">
-                    <label>Profile <sup>*</sup></label>
-                    <input v-model="form.profile" class="form-control" type="text" readonly required />
                 </div>
 
                 <button type="submit" class="full-width btn btn-submit" style="margin-bottom: 6px;">Save</button>
@@ -75,6 +76,9 @@ export default {
     },
 
     mounted () {
+        // eslint-disable-next-line no-unused-expressions
+        this.$refs.title?.focus()
+
         if (this.id) {
             this.loadLink()
         }
