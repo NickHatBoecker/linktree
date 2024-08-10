@@ -1,66 +1,16 @@
 <template>
     <div id="app" class="fullheight">
-        <div class="page fullheight">
-            <h1 class="sr-only">Linktree</h1>
-
-            <div v-if="logo" :class="{ 'logo-wrapper': true, 'mb-8': !slogan }">
-                <img class="logo" width="auto" height="auto" alt="Logo" :src="logo">
-            </div>
-            <div v-if="slogan">
-                <h2 class="u-text-white u-text-center mb-8" v-html="slogan" />
-            </div>
-
-            <linktree />
-            <itch-games v-if="showItchGames" class="mt-36" />
-            <socials />
-
-            <p class="disclaimer u-text-center">Icons provided by <a href="https://fontawesome.com/" target="_blank" rel="noopener">Font Awesome</a></p>
-        </div>
+        <router-view />
     </div>
 </template>
 
 <script>
-import { propOr } from 'ramda'
-import Linktree from '@/components/Linktree.vue'
-import ItchGames from '@/components/ItchGames.vue'
-import Socials from '@/components/Socials.vue'
-
 export default {
     name: 'App',
-
-    components: { ItchGames, Socials, Linktree },
-
-    data: () => ({ logo: null, slogan: null }),
-
-    computed: {
-        showItchGames () {
-            return process.env.VUE_APP_PLAUSIBLE_DOMAIN === 'nick-hat-boecker.de'
-        },
-    },
-
-    async mounted () {
-        try {
-            const { options } = await (await fetch(`${process.env.VUE_APP_API_BASE_URL}/get-options`)).json()
-
-            this.logo = propOr(null, 'logoSrc', options)
-            this.slogan = propOr(null, 'slogan', options)
-
-            if (process.env.VUE_APP_PLAUSIBLE_DOMAIN) {
-                const trackingScript = document.createElement('script')
-                trackingScript.setAttribute('src', 'https://analytics.serverwueste.de/js/script.js')
-                trackingScript.setAttribute('data-domain', process.env.VUE_APP_PLAUSIBLE_DOMAIN)
-                document.body.appendChild(trackingScript)
-            }
-        } catch (e) {
-            console.log(e) // eslint-disable-line no-console
-        }
-    },
 }
 </script>
 
 <style lang="scss">
-    @import '~@/assets/css/variables';
-
     * { box-sizing: border-box; }
 
     html, body {
@@ -98,20 +48,20 @@ export default {
         height: 100%;
     }
 
+    .full-width {
+        width: 100%;
+    }
+
     .page {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding-bottom: 48px;
     }
 
-    .logo-wrapper {
-        max-width: 80vw;
-    }
-
-    .logo {
-        max-width: 100%;
-        border-radius: 50%;
+    .pb-0 {
+        padding-bottom: 0 !important;
     }
 
     .mb-8 {
@@ -122,19 +72,75 @@ export default {
         margin-top: $spacing-unit-36;
     }
 
-    .disclaimer {
-        font-size: 0.9em;
-        color: $white;
+    form { color: $white; }
 
-        a {
-            color: $accent;
-            text-decoration: none;
+    label { display: block; }
 
-            &:hover,
-            &:active,
-            &:focus {
-                text-decoration: underline;
-            }
+    .form-group { margin-bottom: 24px; }
+
+    .form-control { width: 100%; height: 40px; padding: 6px; }
+
+    .btn {
+        height: 40px;
+        cursor: pointer;
+        font-size: 16px;
+
+        &:hover {
+            background-color: darken(#fff, 20%);
         }
     }
+
+    .btn-submit {
+        background-color: orange;
+
+        &:hover {
+            background-color: darken(orange, 10%);
+        }
+    }
+
+    .btn-danger {
+        background-color: red;
+        color: $white;
+
+        &:hover {
+            background-color: darken(red, 10%);
+        }
+    }
+
+    .btn-link {
+        background-color: orange;
+        color: $black;
+        text-decoration: none;
+        padding: 6px;
+
+        &:hover {
+            background-color: darken(orange, 10%);
+        }
+    }
+
+    .container {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .u-flex {
+        display: flex;
+
+        &--column {
+            flex-direction: column;
+        }
+
+        &--horizontal-center {
+            align-items: center;
+        }
+    }
+
+    .table--hover tbody tr { cursor: pointer; }
+    th { text-align: left; background: $black; }
+    th, td { border: 1px solid $white; }
+    .table--hover tr:hover td { background-color: rgba(orange, 0.2); }
+
+    input[readonly] { background-color: #a2a2a2; color: #444; }
 </style>

@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import GetSocialLinkList from '@/assets/database/GetSocialLinkList'
+
 export default {
     name: 'Socials',
 
@@ -22,8 +24,7 @@ export default {
 
     async mounted () {
         try {
-            const { links } = await (await fetch(`${process.env.VUE_APP_API_BASE_URL}/get-socials`)).json()
-            this.links = links
+            this.links = await GetSocialLinkList()
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
         }

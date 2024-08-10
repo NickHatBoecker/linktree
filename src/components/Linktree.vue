@@ -16,6 +16,8 @@
 
 <script>
 import { propOr } from 'ramda'
+import GetLinkList from '@/assets/database/GetLinkList'
+
 const CURRENT_THEME = 'current'
 
 export default {
@@ -25,9 +27,7 @@ export default {
 
     async mounted () {
         try {
-            const { links } = await (await fetch(`${process.env.VUE_APP_API_BASE_URL}/get-links`)).json()
-
-            this.links = links
+            this.links = await GetLinkList()
             this.links.sort(this.sortByPositionDesc)
         } catch (e) {
             console.log(e) // eslint-disable-line no-console
