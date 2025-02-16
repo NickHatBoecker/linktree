@@ -11,7 +11,10 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomeView,
-        meta: { requiresAuth: false },
+        meta: {
+            requiresAuth: false,
+            icon: process.env.VUE_APP_FAVICON_FILE || 'favicon_nickhatboecker.ico',
+        },
     },
 
     {

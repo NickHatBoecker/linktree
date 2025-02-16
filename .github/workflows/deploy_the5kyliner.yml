@@ -20,6 +20,7 @@ jobs:
             VUE_APP_APPWRITE_ENDPOINT: ${{ vars.VUE_APP_APPWRITE_ENDPOINT }}
             VUE_APP_APPWRITE_PROFILE: 'the5kyliner'
             VUE_APP_PLAUSIBLE_DOMAIN: 'the5kyliner.de'
+            VUE_APP_FAVICON_FILE: 'favicon_the5kyliner.ico'
 
         steps:
             - name: Check out code

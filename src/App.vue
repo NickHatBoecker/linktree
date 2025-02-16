@@ -7,6 +7,27 @@
 <script>
 export default {
     name: 'App',
+
+    watch: {
+        $route (to) {
+            if (to?.meta?.icon) {
+                this.updateFavicon(to.meta.icon)
+            }
+        },
+    },
+
+    mounted () {
+        if (this.$route?.meta?.icon) {
+            this.updateFavicon(this.$route.meta.icon)
+        }
+    },
+
+    methods: {
+        updateFavicon (icon) {
+            const link = document.querySelector("[rel='icon']")
+            link.setAttribute('href', icon)
+        },
+    },
 }
 </script>
 

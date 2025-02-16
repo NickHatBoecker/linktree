@@ -20,6 +20,7 @@ jobs:
             VUE_APP_APPWRITE_ENDPOINT: ${{ vars.VUE_APP_APPWRITE_ENDPOINT }}
             VUE_APP_APPWRITE_PROFILE: 'nickhatboecker'
             VUE_APP_PLAUSIBLE_DOMAIN: 'nickhatboecker.de'
+            VUE_APP_FAVICON_FILE: 'favicon_nickhatboecker.png'
 
         steps:
             - name: Check out code
