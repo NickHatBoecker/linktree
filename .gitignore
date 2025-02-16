@@ -2,8 +2,6 @@
 node_modules
 /dist
 
-/public/favicon*.png
-
 # local env files
 .env.local
 .env.*.local
